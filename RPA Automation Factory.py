@@ -37,18 +37,21 @@ for index, row in df.iterrows():
     address = row['Address']
     email = row['Email']
     phone = str(row['Phone Number'])
+    
 
-    driver.find_element(By.LABEL, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[4]/rpa1-field[1]/div[1]/input[1]').send_keys(first_name)
-    driver.find_element(By.ID,    'tBivk').send_keys(last_name)
-    driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[6]/rpa1-field[1]/div[1]/input[1]').send_keys(company_name)
-    driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[3]/rpa1-field[1]/div[1]/input[1]').send_keys(role)
-    driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[5]/rpa1-field[1]/div[1]/input[1]').send_keys(address)
-    driver.find_element(By.ID, 'B5fh7').send_keys(email)
-    driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[7]/rpa1-field[1]/div[1]/input[1]').send_keys(phone)
-    driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/input[1]').click()
+    driver.find_element(By.XPATH, "//label[contains(text(), 'First Name')]/following-sibling::input").send_keys(first_name)
+    driver.find_element(By.XPATH,  "//label[contains(text(), 'Last Name')]/following-sibling::input").send_keys(last_name)
+    driver.find_element(By.XPATH, "//label[contains(text(), 'Company Name')]/following-sibling::input").send_keys(company_name)
+    driver.find_element(By.XPATH, "//label[contains(text(), 'Role in Company')]/following-sibling::input").send_keys(role)
+    driver.find_element(By.XPATH, "//label[contains(text(), 'Address')]/following-sibling::input").send_keys(address)
+    driver.find_element(By.XPATH, "//label[contains(text(), 'Email')]/following-sibling::input").send_keys(email)
+    driver.find_element(By.XPATH, "//label[contains(text(), 'Phone Number')]/following-sibling::input").send_keys(phone)
+    confirm_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/input[1]')))
+    confirm_button.click()
+    #driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[4]/rpa1-field[1]/div[1]/input[1]').click()
 
 # Pobranie wyniku
-result = driver.find_element(By.XPATH, '/html/body/app-root/div[2]').text
+result = driver.find_element(By.XPATH, "/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/div[2]").text
 
 # Zapisanie wyniku do pliku tekstowego
 with open('result.txt', 'w') as file:
