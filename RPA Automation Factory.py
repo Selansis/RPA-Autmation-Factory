@@ -4,6 +4,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 options = webdriver.ChromeOptions()
+options.add_argument("--start-maximized")
+prefs = {"profile.default_content_settings.popups": 0,
+             "download.default_directory": 
+                        r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\\",#IMPORTANT - ENDING SLASH V IMPORTANT
+             "directory_upgrade": True}
+options.add_experimental_option("prefs", prefs)
+
 
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
 
@@ -16,7 +23,6 @@ driver = webdriver.Chrome(
 driver.get("http://www.rpachallenge.com/")
 
 # Oczekiwanie na przycisk "Download Excel"
-#download_excel_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, 'button[ng-reflect-message="Download Excel"]')))
 download_excel_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[1]/div[6]/a[1]')))
 download_excel_button.click()
 
@@ -26,7 +32,7 @@ start_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPA
 start_button.click()
 
 # Wczytanie danych z pliku Excel
-df = pd.read_excel("M:\Downloads\challenge.xlsx")
+df = pd.read_excel(r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\challenge.xlsx")
 
 # Iteracja po danych i wprowadzenie ich do formularza
 for index, row in df.iterrows():
@@ -48,7 +54,7 @@ for index, row in df.iterrows():
     driver.find_element(By.XPATH, "//label[contains(text(), 'Phone Number')]/following-sibling::input").send_keys(phone)
     confirm_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/input[1]')))
     confirm_button.click()
-    #driver.find_element(By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/form[1]/div[1]/div[4]/rpa1-field[1]/div[1]/input[1]').click()
+
 
 # Pobranie wyniku
 result = driver.find_element(By.XPATH, "/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/div[2]").text
