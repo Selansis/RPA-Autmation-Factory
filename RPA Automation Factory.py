@@ -19,22 +19,22 @@ driver = webdriver.Chrome(
 )
 
 
-# Otwarcie strony rpachallenge.com
+# otwarcie strony rpachallenge.com
 driver.get("http://www.rpachallenge.com/")
 
-# Oczekiwanie na przycisk "Download Excel"
+# oczekiwanie na przycisk "Download Excel"
 download_excel_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[1]/div[6]/a[1]')))
 download_excel_button.click()
 
 
-# Rozpoczęcie zadania klikając przycisk START
+# rozpoczęcie zadania klikając przycisk START
 start_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[1]/div[6]/button[1]')))
 start_button.click()
 
-# Wczytanie danych z pliku Excel
+# wczytanie danych z pliku Excel
 df = pd.read_excel(r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\challenge.xlsx")
 
-# Iteracja po danych i wprowadzenie ich do formularza
+# iteracja po danych i wprowadzenie ich do formularza
 for index, row in df.iterrows():
     first_name = row['First Name']
     last_name = row['Last Name ']
@@ -56,12 +56,12 @@ for index, row in df.iterrows():
     confirm_button.click()
 
 
-# Pobranie wyniku
+# pobranie wyniku
 result = driver.find_element(By.XPATH, "/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[2]/div[2]").text
 
-# Zapisanie wyniku do pliku tekstowego
+# zapisanie wyniku do pliku tekstowego
 with open('result.txt', 'w') as file:
     file.write(result)
 
-# Zamknięcie przeglądarki
+# zamknięcie przeglądarki
 driver.quit()
