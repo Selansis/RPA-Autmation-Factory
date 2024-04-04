@@ -7,7 +7,7 @@ options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 prefs = {"profile.default_content_settings.popups": 0,
              "download.default_directory": 
-                        r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\\",#IMPORTANT - ENDING SLASH V IMPORTANT
+                        r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\\",
              "directory_upgrade": True}
 options.add_experimental_option("prefs", prefs)
 
