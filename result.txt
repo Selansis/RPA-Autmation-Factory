@@ -1,1 +1,1 @@
-Your success rate is 100% ( 70 out of 70 fields) in 4375 milliseconds
+Your success rate is 100% ( 70 out of 70 fields) in 4266 milliseconds
