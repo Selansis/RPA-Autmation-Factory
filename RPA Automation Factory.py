@@ -3,12 +3,21 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
+import os 
+import time
+import tkinter as tk
+
+script_directory = os.path.dirname(os.path.abspath(__file__))
+path = script_directory + r"\challenge.xlsx"
+if os.path.exists(path):
+    os.remove(path)
 options = webdriver.ChromeOptions()
 options.add_argument("--start-maximized")
 prefs = {"profile.default_content_settings.popups": 0,
-             "download.default_directory": 
-                        r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\\",#IMPORTANT - ENDING SLASH V IMPORTANT
-             "directory_upgrade": True}
+             "download.default_directory": script_directory,
+             "directory_upgrade": True,
+             "download.prompt_for_download": False,
+             "download.directory_upgrade": True}
 options.add_experimental_option("prefs", prefs)
 
 
@@ -25,14 +34,20 @@ driver.get("http://www.rpachallenge.com/")
 # oczekiwanie na przycisk "Download Excel"
 download_excel_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[1]/div[6]/a[1]')))
 download_excel_button.click()
+wait_time = 10
 
-
+for i in range(wait_time):
+    if os.path.exists(path):
+        break
+    time.sleep(1)
+df = pd.read_excel(path)
 # rozpoczęcie zadania klikając przycisk START
 start_button = WebDriverWait(driver, 2).until(EC.element_to_be_clickable((By.XPATH, '/html[1]/body[1]/app-root[1]/div[2]/app-rpa1[1]/div[1]/div[1]/div[6]/button[1]')))
 start_button.click()
 
+
 # wczytanie danych z pliku Excel
-df = pd.read_excel(r"C:\Users\wojte\Pulpit\Pulpit\RPA Automation Factory\challenge.xlsx")
+
 
 # iteracja po danych i wprowadzenie ich do formularza
 for index, row in df.iterrows():
@@ -62,6 +77,8 @@ result = driver.find_element(By.XPATH, "/html[1]/body[1]/app-root[1]/div[2]/app-
 # zapisanie wyniku do pliku tekstowego
 with open('result.txt', 'w') as file:
     file.write(result)
-
+path = script_directory + r"\result.txt"
+if os.path.exists(path):
+    driver.quit()
 # zamknięcie przeglądarki
-driver.quit()
+
